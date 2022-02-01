@@ -40,11 +40,22 @@ while game_is_on:
     time.sleep(0.1)
 
     # will check food collision here.
-
     if food.distance(snake.head) <= 15:
         food.update_food()
         snake.update_new_portion_in_snake()
         scoreboard.refresh()
         # print("food updated")
+
+    # check boundary collision here
+    if snake.head.xcor() == 280 or snake.head.xcor() == -280 or snake.head.ycor() == 280 or snake.head.ycor() == -280:
+        # end the game here
+        scoreboard.game_over()
+        game_is_on = False
+
+    # check iff snake touched it's tail
+    for segment in snake.segment_square[1:]:
+        if snake.head.distance(segment) < 15:
+            scoreboard.game_over()
+            game_is_on = False
 
 screen.exitonclick()
